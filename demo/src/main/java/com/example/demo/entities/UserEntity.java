@@ -3,11 +3,14 @@ package com.example.demo.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import java.util.HashSet;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -21,19 +24,21 @@ public class UserEntity {
     @NotBlank
     private String last_name;
 
-    @NotBlank
-//    TODO: or BLOB type (binary large object)
+    @Lob
+//    TODO: or BLOB type (binary large object)    - done
     private String avatar_url;
 
     @NotBlank
     @Email
     private String email;
 
-//    TODO: MAYBE ENUM???
-//    @Enumerated(EnumType.STRING)
-//    private UserRoles role;
+//    TODO: MAYBE ENUM???       - zrobiłam enuma
+    @Enumerated(EnumType.STRING)
     @NotBlank
-    private String role;
+    private UserRoles role;
+
+
+    //private String role;
 
     @ManyToMany
     @JoinTable(
