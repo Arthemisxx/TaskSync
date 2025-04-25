@@ -25,20 +25,15 @@ public class UserEntity {
     private String last_name;
 
     @Lob
-//    TODO: or BLOB type (binary large object)    - done
-    private String avatar_url;
+    private String avatar;
 
     @NotBlank
     @Email
     private String email;
 
-//    TODO: MAYBE ENUM???       - zrobiłam enuma
     @Enumerated(EnumType.STRING)
     @NotBlank
     private UserRoles role;
-
-
-    //private String role;
 
     @ManyToMany
     @JoinTable(

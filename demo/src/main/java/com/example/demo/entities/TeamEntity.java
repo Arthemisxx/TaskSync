@@ -20,8 +20,6 @@ public class TeamEntity {
     @NotBlank
     private String name;
 
-    // TODO Chyba opis nie musi być @notblank?
-    //@NotBlank
     private String description;
 
     @ManyToMany(mappedBy = "teams")
