@@ -1,11 +1,9 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -17,11 +15,14 @@ public class TeamEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
-    private String name;
+//    @NotBlank
+    private String teamName;
 
     private String description;
 
-    @ManyToMany(mappedBy = "teams")
-    private Set<UserEntity> users = new HashSet<>();
+    @ManyToMany
+    private Set<UserEntity> users;
+
+    @OneToMany(mappedBy = "team")
+    private Set<TaskEntity> tasks;
 }

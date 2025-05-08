@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.example.demo.models.UserRoles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -41,7 +42,15 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
-    private Set<TeamEntity> teams = new HashSet<>();
+    private Set<TeamEntity> teams;
+
+    @OneToMany(mappedBy = "creator")
+    private Set<TaskEntity> createdTasks;
+
+    @OneToMany(mappedBy = "assignedUser")
+    private Set<TaskEntity> assignedTasks;
+
+
 
 
 }
