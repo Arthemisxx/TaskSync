@@ -27,5 +27,5 @@ public class TaskDTO {
     private TaskPriority priority;
     private Set<SubtaskDTO> subtasks;
     private Long assignedUserId;
-    private TeamDTO team;
+    private Long teamId;
 }

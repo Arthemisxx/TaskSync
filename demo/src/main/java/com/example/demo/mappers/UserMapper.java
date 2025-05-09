@@ -15,8 +15,8 @@ public class UserMapper {
     public UserEntity toEntity(UserDTO dto, Set<TeamEntity> teams) {
         UserEntity entity = new UserEntity();
         entity.setId(dto.getId());
-        entity.setFirst_name(dto.getFirstName());
-        entity.setLast_name(dto.getLastName());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
         entity.setAvatar(dto.getAvatar());
         entity.setEmail(dto.getEmail());
         entity.setRole(dto.getRole());
@@ -27,8 +27,8 @@ public class UserMapper {
     public UserDTO toDTO(UserEntity entity) {
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
-        dto.setFirstName(entity.getFirst_name());
-        dto.setLastName(entity.getLast_name());
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
         dto.setAvatar(entity.getAvatar());
         dto.setEmail(entity.getEmail());
         dto.setRole(entity.getRole());

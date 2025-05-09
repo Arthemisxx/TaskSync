@@ -49,15 +49,15 @@ public class TaskEntity {
     private Set<SubtaskEntity> subtasks;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id", nullable = true)
+    @JoinColumn(name = "creator_id")
     private UserEntity creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assigned_user_id", nullable = true)
+    @JoinColumn(name = "assigned_user_id")
     private UserEntity assignedUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id", nullable = true)
+    @JoinColumn(name = "team_id")
     private TeamEntity team;
 
 }
