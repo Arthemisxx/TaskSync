@@ -14,7 +14,9 @@ public class SubtaskMapper {
     }
 
     public SubtaskDTO toDTO(SubtaskEntity subtask){
-        //TODO
+        Long id = subtask.getId();
+        String content = subtask.getContent();
+        Boolean status = subtask.getStatus();
         return new SubtaskDTO();
     }
 }
