@@ -17,6 +17,6 @@ public class SubtaskMapper {
         Long id = subtask.getId();
         String content = subtask.getContent();
         Boolean status = subtask.getStatus();
-        return new SubtaskDTO();
+        return new SubtaskDTO(id, content, status);
     }
 }

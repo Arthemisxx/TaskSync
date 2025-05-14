@@ -4,6 +4,7 @@ import com.example.demo.entities.SubtaskEntity;
 import com.example.demo.entities.TaskEntity;
 import com.example.demo.entities.TeamEntity;
 import com.example.demo.entities.UserEntity;
+import com.example.demo.models.DTOs.SubtaskDTO;
 import com.example.demo.models.DTOs.TaskDTO;
 import com.example.demo.models.TaskPriority;
 import com.example.demo.models.TaskStatus;
@@ -45,7 +46,19 @@ public class TaskMapper {
     }
 
     public TaskDTO toDTO(TaskEntity task){
-        //TODO
-        return new TaskDTO();
+        Long id = task.getId();
+        String title = task.getTitle();
+        String description = task.getDescription();
+        LocalDateTime fromDate = LocalDateTime.now();
+        LocalDateTime toDate = task.getToDate();
+        TaskStatus status = task.getStatus();
+        TaskPriority taskPriority = task.getPriority();
+        Set<SubtaskDTO> subtasks= task.getSubtasks()
+                .stream()
+                .map(subtaskMapper::toDTO)
+                .collect(Collectors.toSet());
+        Long assignedUserId = task.getAssignedUser().getId();
+        Long teamId = task.getTeam().getId();
+        return new TaskDTO(id, title, description, fromDate, toDate, status, taskPriority, subtasks, assignedUserId, teamId);
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -19,10 +21,35 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+
+    @GetMapping("/search")
+    public ResponseEntity <List<TaskDTO>> getUserTasks(){
+        List<TaskDTO> result = taskService.findByUserId();
+        if(result.isEmpty()){
+            logger.info("No tasks found!");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            result.forEach(e-> logger.info(e.getTitle()));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/search-by-team/{teamId}")
+    public ResponseEntity<List<TaskDTO>> getTeamTasks(@PathVariable Long teamId){
+        List<TaskDTO> result = taskService.findByTeamId(teamId);
+        if(result.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<TaskEntity> getTaskById(@PathVariable Long id){
         return new ResponseEntity<>(taskService.findById(id), HttpStatus.OK);
     }
+
 
     @PostMapping(path = "/add")
     public ResponseEntity<Void> addTask(@RequestBody TaskDTO task){
