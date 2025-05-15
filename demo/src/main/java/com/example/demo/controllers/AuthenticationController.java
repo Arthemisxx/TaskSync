@@ -7,6 +7,7 @@ import com.example.demo.models.DTOs.response.LoginResponse;
 import com.example.demo.services.AuthenticationService;
 import com.example.demo.services.JwtService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +23,10 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserEntity> register(@RequestBody RegisterUserDTO registerUserDTO){
+    public ResponseEntity<Void> register(@RequestBody RegisterUserDTO registerUserDTO){
         UserEntity registeredUser = authenticationService.signup(registerUserDTO);
 
-        return ResponseEntity.ok(registeredUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/login")

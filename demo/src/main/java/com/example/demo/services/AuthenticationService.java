@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -38,8 +39,12 @@ public class AuthenticationService {
         user.setAvatar(input.getAvatar());
         userRepository.save(user);
         String teamName = user.getFirstName() + "'s Team";
-        teamRepository.save(new TeamEntity(teamName, "Your private team", Set.of(user), null, user));
-
+        TeamEntity team = new TeamEntity(teamName, "Your private team", Set.of(user), null);
+        teamRepository.save(team);
+        user.setTeams(new HashSet<TeamEntity>() {{
+            this.add(team);
+        }});
+        userRepository.save(user);
         return user;
     }
 

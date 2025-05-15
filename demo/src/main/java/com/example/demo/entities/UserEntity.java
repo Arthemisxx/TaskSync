@@ -50,9 +50,8 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRoles role;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_team",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
@@ -63,10 +62,6 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "assignedUser")
     private Set<TaskEntity> assignedTasks;
-
-    @OneToMany(mappedBy = "manager")
-    private Set<TeamEntity> managedTeams;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

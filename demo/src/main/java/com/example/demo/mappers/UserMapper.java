@@ -4,6 +4,8 @@ import com.example.demo.entities.UserEntity;
 import com.example.demo.entities.TeamEntity;
 import com.example.demo.models.DTOs.UserDTO;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;

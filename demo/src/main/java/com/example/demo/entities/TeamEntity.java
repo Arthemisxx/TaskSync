@@ -24,22 +24,17 @@ public class TeamEntity {
 
     private String description;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "teams")
     private Set<UserEntity> users;
 
     @OneToMany(mappedBy = "team")
     private Set<TaskEntity> tasks;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id")
-    private UserEntity manager;
 
-
-    public TeamEntity(String teamName, String description, Set<UserEntity> users, Set<TaskEntity> tasks, UserEntity manager) {
+    public TeamEntity(String teamName, String description, Set<UserEntity> users, Set<TaskEntity> tasks) {
         this.teamName = teamName;
         this.description = description;
         this.users = users;
         this.tasks = tasks;
-        this.manager = manager;
     }
 }
