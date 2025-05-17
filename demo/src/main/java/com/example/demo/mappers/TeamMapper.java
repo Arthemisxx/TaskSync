@@ -3,6 +3,7 @@ package com.example.demo.mappers;
 import com.example.demo.entities.TeamEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.models.DTOs.TeamDTO;
+import com.example.demo.repositories.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -12,12 +13,19 @@ import java.util.stream.Collectors;
 @Component
 public class TeamMapper {
 
-    public TeamEntity toEntity(TeamDTO dto, Set<UserEntity> users) {
+    private final UserRepository userRepository;
+
+    public TeamMapper(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public TeamEntity toEntity(TeamDTO dto) {
         TeamEntity entity = new TeamEntity();
         entity.setId(dto.getId());
         entity.setTeamName(dto.getTeamName());
         entity.setDescription(dto.getDescription());
-        entity.setUsers(users != null ? users : new HashSet<>());
+        Set<UserEntity> users = dto.getUserIds().stream().map(userRepository::getUserEntityById).collect(Collectors.toSet());
+        entity.setUsers(users);
         return entity;
     }
 

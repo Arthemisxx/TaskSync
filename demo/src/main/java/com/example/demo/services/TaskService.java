@@ -36,7 +36,6 @@ public class TaskService {
     public void addTask(TaskDTO task) {
         TaskEntity taskEntity = taskMapper.toEntity(task);
         taskRepository.save(taskEntity);
-        System.out.println(taskEntity.getId());
         taskEntity.getSubtasks().forEach(s -> subtaskService.addSubtask(s, taskEntity));
     }
 
