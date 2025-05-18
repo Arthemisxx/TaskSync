@@ -49,30 +49,30 @@ public class TeamController {
 
     @PostMapping(path = "/add-user/{teamId}/{userId}")
     public ResponseEntity<Void> addUser(@PathVariable Long teamId, @PathVariable Long userId) {
+
         logger.info("Adding user {} to team {}", userId, teamId);
 
-        Optional<UserEntity> user = userService.findUserById(userId);
-        TeamEntity team = teamService.findTeamById(teamId);
-
-        if (user.isEmpty() || team == null) {
-            return ResponseEntity.notFound().build();
+        UserEntity result = teamService.addUserToTeam(teamId,userId);
+        if(result == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        TeamDTO teamDTO = teamMapper.toDTO(team);
-        teamDTO.getUserIds().add(user.get().getId());
-        teamDTO.getUserIds().forEach(u -> {
-            logger.info("TEEST: Adding user {} to team ", u);
-        });
+        return new ResponseEntity<>(HttpStatus.OK);
 
 
-        team = teamMapper.toEntity(teamDTO);
-        team.getUsers().forEach(u -> {
-            logger.info("TEEST!!: Adding user {} to team ", u.getId());
-        });
-        teamService.save(team);
+//        TeamDTO teamDTO = teamMapper.toDTO(team);
+//        teamDTO.getUserIds().add(user.getId());
+//        teamDTO.getUserIds().forEach(u -> {
+//            logger.info("TEEST: Adding user {} to team ", u);
+//        });
 
-        logger.info("User {} added to team {}", userId, teamId);
-        return ResponseEntity.ok().build();
+//        team = teamMapper.toEntity(teamDTO);
+//        team.getUsers().forEach(u -> {
+//            logger.info("TEEST!!: Adding user {} to team ", u.getId());
+//        });
+//        teamService.save(team);
+//
+//        logger.info("User {} added to team {}", userId, teamId);
+//        return ResponseEntity.ok().build();
     }
 
 
