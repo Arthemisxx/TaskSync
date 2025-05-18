@@ -32,4 +32,8 @@ public class TeamService {
             userRepository.save(u);
         });
     }
+
+    public TeamEntity findTeamById(Long teamId) {
+        return teamRepository.findTeamEntityById(teamId);
+    }
 }
