@@ -8,14 +8,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -42,5 +42,15 @@ public class UserController {
         users.stream().forEach(u -> logger.info(u.getEmail()));
 
         return ResponseEntity.ok(users.stream().map(userMapper::toDTO).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/search-by-email/{email}")
+    public ResponseEntity<UserDTO> searchByEmail(@PathVariable String email){
+        Optional<UserEntity> user = userService.findUserByEmail(email);
+        if(user.isPresent()){
+            return ResponseEntity.ok(userMapper.toDTO(user.get()));
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

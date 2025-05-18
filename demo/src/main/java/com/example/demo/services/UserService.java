@@ -5,8 +5,8 @@ import com.example.demo.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,4 +16,6 @@ public class UserService {
     public List<UserEntity> allUsers(){
         return userRepository.findAll();
     }
+
+    public Optional<UserEntity> findUserByEmail(String email) { return userRepository.findByEmail(email);}
 }
