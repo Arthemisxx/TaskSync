@@ -36,4 +36,8 @@ public class TeamService {
     public TeamEntity findTeamById(Long teamId) {
         return teamRepository.findTeamEntityById(teamId);
     }
+
+    public void save(TeamEntity team) {
+        teamRepository.save(team);
+    }
 }
