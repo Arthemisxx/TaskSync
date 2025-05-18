@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.TaskEntity;
+import com.example.demo.mappers.TaskMapper;
 import com.example.demo.models.DTOs.TaskDTO;
 import com.example.demo.services.TaskService;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -11,16 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
+    private final TaskMapper taskMapper;
     private final Logger logger = LogManager.getLogger(TaskController.class);
-
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
-
 
     @GetMapping("/search-assigned")
     public ResponseEntity <List<TaskDTO>> getUserTasks(){
@@ -60,8 +59,8 @@ public class TaskController {
 
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<TaskEntity> getTaskById(@PathVariable Long id){
-        return new ResponseEntity<>(taskService.findById(id), HttpStatus.OK);
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id){
+        return new ResponseEntity<>(taskMapper.toDTO(taskService.findById(id)), HttpStatus.OK);
     }
 
 
