@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TeamRepository extends CrudRepository<TeamEntity, Long> {
     TeamEntity findTeamEntityById(Long id);
+    TeamEntity getTeamEntityById(Long id);
 }

@@ -3,6 +3,7 @@ package com.example.demo.mappers;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.entities.TeamEntity;
 import com.example.demo.models.DTOs.UserDTO;
+import com.example.demo.repositories.TeamRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,13 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-    public UserEntity toEntity(UserDTO dto, Set<TeamEntity> teams) {
+    private final TeamRepository teamRepository;
+
+    public UserMapper(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
+
+    public UserEntity toEntity(UserDTO dto) {
         UserEntity entity = new UserEntity();
         entity.setId(dto.getId());
         entity.setFirstName(dto.getFirstName());
@@ -22,7 +29,11 @@ public class UserMapper {
         entity.setAvatar(dto.getAvatar());
         entity.setEmail(dto.getEmail());
         entity.setRole(dto.getRole());
-        entity.setTeams(teams != null ? teams : new HashSet<>());
+        Set<TeamEntity> teams = new HashSet<>();
+        if(dto.getTeamIds()!= null){
+             teams = dto.getTeamIds().stream().map(teamRepository::getTeamEntityById).collect(Collectors.toSet());
+        }
+        entity.setTeams(teams);
         return entity;
     }
 

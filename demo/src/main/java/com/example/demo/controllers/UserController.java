@@ -6,6 +6,7 @@ import com.example.demo.models.DTOs.UserDTO;
 import com.example.demo.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,13 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    @PostMapping("/update")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
+        UserDTO updatedUser = userService.updateUser(userMapper.toEntity(userDTO));
+
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 }

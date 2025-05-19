@@ -4,20 +4,19 @@ import com.example.demo.entities.TeamEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.models.DTOs.TeamDTO;
 import com.example.demo.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Component
 public class TeamMapper {
 
     private final UserRepository userRepository;
 
-    public TeamMapper(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public TeamEntity toEntity(TeamDTO dto) {
         TeamEntity entity = new TeamEntity();
