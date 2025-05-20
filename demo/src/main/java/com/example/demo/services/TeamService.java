@@ -63,7 +63,22 @@ public class TeamService {
         return user;
     }
 
-//    public void save(TeamEntity team) {
-//        teamRepository.save(team);
-//    }
+    public UserEntity deleteUserFromTeam(Long teamId, Long userId) {
+        UserEntity user = userService.findUserById(userId);
+        TeamEntity team = this.findTeamById(teamId);
+
+        if (user == null || team == null) {
+            return null;
+        }
+
+        if(!team.getUsers().contains(user)){
+            return null;
+        }
+        team.getUsers().remove(user);
+        teamRepository.save(team);
+        user.getTeams().remove(team);
+        userRepository.save(user);
+        logger.info(user.getFirstName()+ " " + user.getLastName() + " removed successfully to team: " + team.getTeamName());
+        return user;
+    }
 }

@@ -38,7 +38,6 @@ public class TeamController {
         logger.info("Getting team by id...");
         TeamEntity res = teamService.findTeamById(id);
 
-//        ResponseEntity<TeamDTO> res = new ResponseEntity<>(teamMapper.toDTO(teamService.findTeamById(id)), HttpStatus.OK);
         if(res == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -58,23 +57,18 @@ public class TeamController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
 
-
-//        TeamDTO teamDTO = teamMapper.toDTO(team);
-//        teamDTO.getUserIds().add(user.getId());
-//        teamDTO.getUserIds().forEach(u -> {
-//            logger.info("TEEST: Adding user {} to team ", u);
-//        });
-
-//        team = teamMapper.toEntity(teamDTO);
-//        team.getUsers().forEach(u -> {
-//            logger.info("TEEST!!: Adding user {} to team ", u.getId());
-//        });
-//        teamService.save(team);
-//
-//        logger.info("User {} added to team {}", userId, teamId);
-//        return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping(path = "/remove-user/{teamId}/{userId}")
+    public ResponseEntity<Void> removeUser(@PathVariable Long teamId, @PathVariable Long userId) {
+        logger.info("Removing user {} from team {}", userId, teamId);
 
+        UserEntity res = teamService.deleteUserFromTeam(teamId, userId);
+
+        if(res == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
