@@ -81,4 +81,21 @@ public class TeamService {
         logger.info(user.getFirstName()+ " " + user.getLastName() + " removed successfully to team: " + team.getTeamName());
         return user;
     }
+
+
+    public TeamDTO updateTeam(TeamEntity entity) {
+
+        TeamEntity team = this.findTeamById(entity.getId());
+
+        if(team == null) {
+            return null;
+        }
+
+        team.setTeamName(entity.getTeamName());
+        team.setDescription(entity.getDescription());
+
+        teamRepository.save(team);
+
+        return teamMapper.toDTO(team);
+    }
 }

@@ -71,4 +71,17 @@ public class TeamController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(path = "/update")
+    public ResponseEntity<TeamDTO> updateTeam(@RequestBody TeamDTO teamDTO){
+        logger.info("Updating team...");
+
+        TeamDTO updatedTeam = teamService.updateTeam(teamMapper.toEntity(teamDTO));
+
+        if(updatedTeam == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(updatedTeam, HttpStatus.OK);
+    }
+
 }
