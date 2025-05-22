@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.SubtaskEntity;
 import com.example.demo.entities.TaskEntity;
+import com.example.demo.entities.TeamEntity;
 import com.example.demo.mappers.SubtaskMapper;
 import com.example.demo.models.DTOs.SubtaskDTO;
 import com.example.demo.repositories.SubtaskRepository;
@@ -20,6 +21,10 @@ public class SubtaskService {
     private final TaskRepository taskRepository;
     private final SubtaskMapper subtaskMapper;
 
+    public SubtaskEntity findTeamById(Long subtaskId) {
+        return subtaskRepository.findSubtaskEntityById(subtaskId);
+    }
+
     public void addSubtask(SubtaskEntity subtask, TaskEntity mainTask) {
         subtask.setMainTask(mainTask);
         subtaskRepository.save(subtask);
@@ -37,5 +42,21 @@ public class SubtaskService {
             return HttpStatus.OK;
         }
         return HttpStatus.NOT_FOUND;
+    }
+
+    public SubtaskDTO updateSubtask(SubtaskEntity entity) {
+
+        SubtaskEntity subtask = this.findTeamById(entity.getId());
+
+        if(subtask == null) {
+            return null;
+        }
+
+        subtask.setContent(entity.getContent());
+        subtask.setStatus(entity.getStatus());
+
+        subtaskRepository.save(subtask);
+
+        return subtaskMapper.toDTO(subtask);
     }
 }

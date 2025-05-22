@@ -11,4 +11,5 @@ import java.util.List;
 public interface SubtaskRepository  extends CrudRepository<SubtaskEntity, Long> {
     void deleteAllByMainTask(TaskEntity mainTask);
     List<SubtaskEntity> findAllByMainTask(TaskEntity mainTask);
+    SubtaskEntity findSubtaskEntityById(long id);
 }
