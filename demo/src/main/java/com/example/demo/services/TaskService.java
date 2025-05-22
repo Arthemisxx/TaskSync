@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.TaskEntity;
+import com.example.demo.entities.TeamEntity;
 import com.example.demo.mappers.TaskMapper;
 import com.example.demo.models.DTOs.TaskDTO;
 import com.example.demo.repositories.SubtaskRepository;
@@ -77,4 +78,26 @@ public class TaskService {
     }
 
 
+    public TaskDTO updateTask(TaskEntity entity) {
+
+        TaskEntity task = taskRepository.findTaskEntityById(entity.getId());
+
+        if(task == null) {
+            return null;
+        }
+
+        task.setTitle(entity.getTitle());
+        task.setDescription(entity.getDescription());
+        task.setFromDate(entity.getFromDate());
+        task.setToDate(entity.getToDate());
+        task.setStatus(entity.getStatus());
+        task.setPriority(entity.getPriority());
+        task.setCreator(entity.getCreator());
+        task.setAssignedUser(entity.getAssignedUser());
+        task.setTeam(entity.getTeam());
+
+        taskRepository.save(task);
+
+        return taskMapper.toDTO(task);
+    }
 }

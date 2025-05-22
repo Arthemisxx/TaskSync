@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.entities.TaskEntity;
 import com.example.demo.mappers.TaskMapper;
 import com.example.demo.models.DTOs.TaskDTO;
+import com.example.demo.models.DTOs.TeamDTO;
 import com.example.demo.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -84,6 +85,17 @@ public class TaskController {
         }
     }
 
+    @PostMapping(path = "/update")
+    public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO taskDTO){
+        logger.info("Updating task...");
 
+        TaskDTO updatedTask = taskService.updateTask(taskMapper.toEntity(taskDTO));
+
+        if(updatedTask == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+    }
 
 }
