@@ -1,5 +1,6 @@
 package com.example.demo.repositories;
 
+import com.example.demo.entities.TeamEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.models.UserRoles;
 import org.springframework.data.repository.CrudRepository;
@@ -14,5 +15,4 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     List<UserEntity> findAll();
     Optional<UserEntity> findByEmail(String email);
     Optional<UserEntity> findByRole(UserRoles role);
-
 }

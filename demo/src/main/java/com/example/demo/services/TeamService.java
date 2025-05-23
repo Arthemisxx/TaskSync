@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -37,6 +38,13 @@ public class TeamService {
             u.getTeams().add(teamEntity);
             userRepository.save(u);
         });
+    }
+
+    public List<TeamDTO> findTeamsByCurrentUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var user = userRepository.findByEmail(auth.getName()).get();
+        List<TeamEntity> teams = teamRepository.findAllByUsersIs(Set.of(user));
+        return teams.stream().map(teamMapper::toDTO).toList();
     }
 
     public TeamEntity findTeamById(Long teamId) {

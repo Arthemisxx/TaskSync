@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -33,6 +34,16 @@ public class TeamController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<TeamDTO>> getAllUserTeams(){
+        var res = teamService.findTeamsByCurrentUser();
+        if(res == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        }
+    }
+
     @GetMapping(path = "/team-id/{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id){
         logger.info("Getting team by id...");
@@ -44,6 +55,8 @@ public class TeamController {
 
         return new ResponseEntity<>(teamMapper.toDTO(teamService.findTeamById(id)), HttpStatus.OK);
     }
+
+
 
 
     @PostMapping(path = "/add-user/{teamId}/{userId}")
