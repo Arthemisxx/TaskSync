@@ -97,4 +97,14 @@ public class TeamController {
         return new ResponseEntity<>(updatedTeam, HttpStatus.OK);
     }
 
+    @GetMapping("/{teamId}/users")
+    public ResponseEntity<List<UserDTO>> getAllTeamMembers(@PathVariable Long teamId){
+        List<UserDTO> users = teamService.findTeamUsers(teamId);
+
+        if(users == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
 }

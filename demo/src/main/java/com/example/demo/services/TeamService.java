@@ -4,7 +4,9 @@ import com.example.demo.controllers.TeamController;
 import com.example.demo.entities.TeamEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.mappers.TeamMapper;
+import com.example.demo.mappers.UserMapper;
 import com.example.demo.models.DTOs.TeamDTO;
+import com.example.demo.models.DTOs.UserDTO;
 import com.example.demo.repositories.TeamRepository;
 import com.example.demo.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final UserMapper userMapper;
 
     public void createTeam(TeamDTO team) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -105,5 +108,12 @@ public class TeamService {
         teamRepository.save(team);
 
         return teamMapper.toDTO(team);
+    }
+
+    public List<UserDTO> findTeamUsers(Long id) {
+        TeamEntity team = findTeamById(id);
+        List<UserEntity> userEntities = userRepository.findAllByTeamsIs(team);
+
+        return userEntities.stream().map(userMapper::toDTO).toList();
     }
 }
