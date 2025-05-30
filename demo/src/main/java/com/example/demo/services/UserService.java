@@ -18,11 +18,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public List<UserEntity> allUsers(){
+    public List<UserEntity> allUsers() {
         return userRepository.findAll();
     }
-    public UserEntity findUserById(Long id) { return userRepository.getUserEntityById(id);}
-    public Optional<UserEntity> findUserByEmail(String email) { return userRepository.findByEmail(email);}
+
+    public UserEntity findUserById(Long id) {
+        return userRepository.getUserEntityById(id) ;
+    }
+
+    public UserDTO findUserByIdtoDTO(Long id) {
+        return userMapper.toDTO(userRepository.getUserEntityById(id)) ;
+    }
+
+    public Optional<UserEntity> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     public UserDTO updateUser(UserEntity entity) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

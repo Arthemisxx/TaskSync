@@ -34,7 +34,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/search-crated")
+    @GetMapping("/search-created")
     public ResponseEntity <List<TaskDTO>> getCreatedTasks(){
         List<TaskDTO> result = taskService.findCreatedTasks();
         if(result.isEmpty()){

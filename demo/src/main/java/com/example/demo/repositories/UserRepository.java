@@ -15,4 +15,5 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     List<UserEntity> findAll();
     Optional<UserEntity> findByEmail(String email);
     Optional<UserEntity> findByRole(UserRoles role);
+    List<UserEntity> findAllByTeamsIs(TeamEntity team);
 }
