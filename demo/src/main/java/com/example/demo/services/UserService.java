@@ -26,7 +26,9 @@ public class UserService {
 
     public UserDTO updateUser(UserEntity entity) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity currentUser = (UserEntity) authentication.getPrincipal();
+//        UserEntity currentUser = (UserEntity) authentication.getPrincipal();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity currentUser = userRepository.findByEmail(email).orElseThrow();
 
         currentUser.setFirstName(entity.getFirstName());
         currentUser.setLastName(entity.getLastName());
