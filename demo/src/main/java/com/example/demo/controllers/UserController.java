@@ -41,7 +41,7 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> allUser(){
         List<UserEntity> users = userService.allUsers();
         users.stream().forEach(u -> logger.info(u.getEmail()));
-
+        if (users.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(users.stream().map(userMapper::toDTO).collect(Collectors.toList()));
     }
 
@@ -54,7 +54,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
     @PostMapping("/update")
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
