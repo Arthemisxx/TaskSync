@@ -39,7 +39,11 @@ public class TaskMapper {
                 .collect(Collectors.toSet());
         UserEntity assignedUser = userRepository.getUserEntityById(task.getAssignedUserId());
         // TODO add creator from securityContext
-        var a = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        var a = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity a = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         UserEntity creator = userRepository.getUserEntityById(a.getId());
         TeamEntity team = teamRepository.findTeamEntityById(task.getTeamId());
         return new TaskEntity(id, title,description, fromDate, toDate, status, taskPriority, subtasks, creator, assignedUser, team);
