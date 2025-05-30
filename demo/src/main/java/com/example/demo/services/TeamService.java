@@ -15,7 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -29,7 +31,16 @@ public class TeamService {
 
     public void createTeam(TeamDTO team) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        var user = userRepository.findByEmail(auth.getName()).get();
+//        var user = userRepository.findByEmail(auth.getName()).get();
+        Optional<UserEntity> userOpt = userRepository.findByEmail(auth.getName());
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("User not found with email: " + auth.getName());
+        }
+        UserEntity user = userOpt.get();
+//        team.getUserIds().add(user.getId());
+        if (team.getUserIds() == null) {
+            team.setUserIds(new HashSet<>());
+        }
         team.getUserIds().add(user.getId());
         TeamEntity teamEntity = teamMapper.toEntity(team);
         teamRepository.save(teamEntity);
