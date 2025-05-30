@@ -55,6 +55,7 @@ public class TeamService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         var user = userRepository.findByEmail(auth.getName()).get();
         List<TeamEntity> teams = teamRepository.findAllByUsersIs(Set.of(user));
+        if( teams.isEmpty()) return null;
         return teams.stream().map(teamMapper::toDTO).toList();
     }
 
