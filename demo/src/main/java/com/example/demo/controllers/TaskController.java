@@ -61,7 +61,12 @@ public class TaskController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id){
-        return new ResponseEntity<>(taskMapper.toDTO(taskService.findById(id)), HttpStatus.OK);
+        TaskEntity task = taskService.findById(id);
+        if(task == null){
+            logger.info("No task found!");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(taskMapper.toDTO(task), HttpStatus.OK);
     }
 
 
